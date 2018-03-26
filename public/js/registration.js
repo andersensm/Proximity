@@ -153,7 +153,7 @@ $(document).ready(function() {
   function userLogin(loginObj) {
     var authClient = new OktaAuth({
       url: 'https://dev-975345.oktapreview.com',
-      clientId: '0oaebzwcf9OKAHbHh0h7'
+      clientId: '0oaefsc86ycIdmmK40h7'
     });
 
     console.log(loginObj.email);
@@ -170,9 +170,9 @@ $(document).ready(function() {
           console.log(loginObj.userType === "recruiter");
           var redirectURL;
           if(loginObj.userType === "recruiter"){
-            redirectURL = 'https://immense-spire-42576.herokuapp.com/recruiter?token='+transaction.sessionToken+"&userid="+transaction.user.id+"&email="+loginObj.email+"&type="+loginObj.userType;
+            redirectURL = 'http://localhost:8080/'+transaction.sessionToken+"&userid="+transaction.user.id+"&email="+loginObj.email+"&type="+loginObj.userType;
           } else {
-            redirectURL = 'https://immense-spire-42576.herokuapp.com/authorizeduser?token='+transaction.sessionToken+"&userid="+transaction.user.id+"&email="+loginObj.email+"&type="+loginObj.userType;
+            redirectURL = 'http://localhost:8080/'+transaction.sessionToken+"&userid="+transaction.user.id+"&email="+loginObj.email+"&type="+loginObj.userType;
           }
           //addProfileName(transaction.user.profile.firstName);
           //$( ".dropdown-content" ).find("p").text("HI").attr("value");

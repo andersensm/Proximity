@@ -33,6 +33,10 @@ module.exports = function(app) {
     res.sendFile(path.join(__dirname, "../public/googlemapstest.html"));
   });
 
+  app.get("/about", function(req, res) {
+    res.sendFile(path.join(__dirname, "../public/about.html"));
+  });
+
   app.get("/logout", function(req, res) {
     res.clearCookie('token');
     res.clearCookie('userid');

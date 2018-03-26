@@ -159,6 +159,15 @@ th {
   /* z-index: 1 */
 }
 
+.queried-banner {
+  background-color: #4f6367;
+  background-position: 50% 65%;
+  height: 100px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: #F9F9F9;
+}
+
 .heading {
   font-size: 2.5rem;
   padding-top: 85px;

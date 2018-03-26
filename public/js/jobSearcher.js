@@ -48,6 +48,13 @@ $(document).ready(function() {
   //job Searcher request this will need to be taken from results page of query post
   $("#sendSearch").on("click", function(event) {
   event.preventDefault();
+
+  // remove banner and replace with a new background
+  $("#main-header").removeClass("main-banner");
+  $("#headerText").hide();
+  $("#main-header").addClass("queried-banner");
+  $("#main-header").html("<div class='container'><h1 class='queried-text'>You are so close to finding your dream job</h1></div>");
+
   //emptySearchMarkersArray
   finalSearchQuary = []
   searchMarkersLatLng = []
@@ -63,6 +70,9 @@ $(document).ready(function() {
   apiResults;
   check=false
   keywordInput = $("#keywordVal").val().trim();
+
+  // update results text header with queried keyword
+  $("#latestJobsText").text("Results for " + keywordInput)
 
 
     $.ajax({
@@ -173,8 +183,16 @@ function addList() {
           "data-target": "#viewJobPostInfo",
           on: {
             click: function() {
+              var id = localStorage.getItem("id")
+              console.log(id)
+              if (id === null || id === undefined) {
+                $("#redirectModal").modal();
+                $(btn).removeAttr("data-toggle")
+              } else {
+                displayPost(results.id)
+              }
               // console.log ( posts.id );
-              displayPost(results.id)
+              // displayPost(results.id)
             }
           }
         })
@@ -366,8 +384,14 @@ $("#addPost").on("click", function(event) {
       "data-target": "#viewJobPostInfo",
       on: {
         click: function() {
-          // console.log ( posts.id );
-          displayPost(posts.id)
+          var id = localStorage.getItem("id")
+          console.log(id)
+          if (id === null || id === undefined) {
+            $("#redirectModal").modal();
+            $(btn).removeAttr("data-toggle")
+          } else {
+            displayPost(posts.id)
+          }
         }
       }
     })
@@ -415,8 +439,8 @@ $("#addPost").on("click", function(event) {
         class: "apply-btn",
         on: {
           click: function() {
-            window.open(postLink, '_blank');
-            // window.open("http://www.facebook.com", '_blank');
+            // window.open(postLink, '_blank');
+            window.open("http://www.google.com", '_blank');
             console.log("click to go to url")
           }
         }
@@ -621,8 +645,8 @@ function googleMaps() {
               class: "apply-btn",
               on: {
                 click: function() {
-                  window.open(postLink, '_blank');
-                  // window.open("http://www.facebook.com", '_blank');
+                  // window.open(postLink, '_blank');
+                  window.open("http://www.google.com", '_blank');
                   console.log("click to go to url")
                 }
               }

@@ -45,9 +45,9 @@
 				</div>
 			</div>
 		</nav>
-		<div class="main-banner">
+		<div id="main-header" class="main-banner">
 			<div class="main-banner-overlay">
-				<div class="container">
+				<div id="headerText" class="container">
 					<h1 class="heading">Find the job you want</h1>
 					<h1>where you want it</h1>
 					<div class="header-text">Search for a job within the exact radius of where you want to be</div>
@@ -296,11 +296,32 @@
 			</div>
 		</div>
 
+		<!-- if user doesn't exit when clicked on view, redirect to login or reg -->
+		<!-- Modal -->
+		<div class="modal fade" id="redirectModal" tabindex="-1" role="dialog" aria-labelledby="redirectModal" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Woops!</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+					</div>
+					<div class="modal-body">
+						You must <a data-dismiss="modal" data-toggle="modal" href="#registerModal">register</a> or <a data-dismiss="modal" data-toggle="modal" href="#loginModal">login</a> first to view this job posting.
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<div class="footer">
 			<div class="container text-center">
 				<p class="recruiter-login-text">Are you a recruiter?</p>
 				<button type="submit" id="recruiter-btn" class="btn btn-light recruiter-login" data-toggle="modal" data-target="#recruiterModal">Register/Login</button>
-				<p>© Copyright Proximity 2018 | <a href="#" target="_blank">About</a></p>
+				<p>© Copyright Proximity 2018 | <a href="/about" target="_blank">About</a></p>
 			</div>
 		</div>
 
@@ -309,7 +330,7 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header modal-title-logins">
-						<h4 class="modal-title" id="recruiterModalLabel">Welcome to JobLocator</h4>
+						<h4 class="modal-title" id="recruiterModalLabel">Welcome to Proximity</h4>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
 							</button>
 					</div>
