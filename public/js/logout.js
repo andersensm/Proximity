@@ -2,17 +2,17 @@ $(document).ready(function() {
   var authClient = new OktaAuth({
     url: 'https://dev-975345.oktapreview.com',
     clientId: '0oaefsc86ycIdmmK40h7',
-    redirectUri: 'http://localhost:8080/'
+    redirectUri: '/'
   });
 
   authClient.signOut()
     .then(function() {
       console.log('successfully logged out');
-      window.location.href = 'http://localhost:8080/';
+      window.location.href = '/';
     })
     .fail(function(err) {
       console.error(err);
-      window.location.href = 'http://localhost:8080/';
+      window.location.href = '/';
     });
 
   localStorage.clear();
