@@ -1,7 +1,7 @@
 $(document).ready(function() {
   var authClient = new OktaAuth({
-    url: 'https://dev-975345.oktapreview.com',
-    clientId: '0oaefsc86ycIdmmK40h7',
+    url: 'https://dev-718531.oktapreview.com',
+    clientId: '0oaeh5zb0oT1wYElN0h7'
     redirectUri: '/'
   });
 
