@@ -6,7 +6,7 @@ module.exports = function(app) {
   app.post("/api/register", function(req, res) {
     //console.log("process.env.apiKey "+ process.env.apiKey);
     console.log(req.body);
-    var apiKey = "00BDMYORT6f82bU5kvP5TDTzxc_-7iN45zC4msNvjK";
+    var apiKey = "0055AoJ3LX24PesXlm2x889Z7hQSM2ijhnWkT2LAfy";
     var registerBody = {
       "profile": {
         "firstName": req.body.firstName,
@@ -24,7 +24,7 @@ module.exports = function(app) {
 
     request({
       method: "POST",
-      url: "https://dev-975345.oktapreview.com/api/v1/users?activate=true",
+      url: "https://dev-718531.oktapreview.com/api/v1/users?activate=true",
       headers: {
         "Content-Type": "application/json",
         "Authorization": "SSWS " + apiKey

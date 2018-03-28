@@ -28,7 +28,7 @@ module.exports = function(app) {
   });
 
   app.get("/api/login", function(req, res) {
-    var apiKey = "00BDMYORT6f82bU5kvP5TDTzxc_-7iN45zC4msNvjK";
+    var apiKey = "0055AoJ3LX24PesXlm2x889Z7hQSM2ijhnWkT2LAfy";
     console.log("You got into the route");
     console.log(req.query);
     var email = req.query.email;
@@ -36,7 +36,7 @@ module.exports = function(app) {
 
     request({
       method: "GET",
-      url: "https://dev-975345.oktapreview.com/api/v1/users/" + email,
+      url: "https://dev-718531.oktapreview.com/api/v1/users/" + email,
       headers: {
         "Content-Type": "application/json",
         "Authorization": "SSWS " + apiKey
