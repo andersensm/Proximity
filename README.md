@@ -1,6 +1,6 @@
 # Proximity
 
-Proximity is an application built for job searchers looking for new employment with a specified location and radius of that address. The job's the user searches for are based on the recruiter's posting jobs opportunities for job searchers.
+[Proximity](https://guarded-garden-97987.herokuapp.com/) is an application built for job searchers looking for new employment with a specified location and radius of that address. The job's the user searches for are based on the recruiter's posting jobs opportunities for job searchers.
 
 Designed to use the node.js & express.js for server-side code accessing information contained within mySQL using Sequelize to interact with the front-end user interactions and Heroku displaying the front-end deployment product:
 
@@ -88,7 +88,7 @@ Designed to use the node.js & express.js for server-side code accessing informat
 		└── server.js
 
 ## **Installation**
-  - Deployed to Heroku, installation on local machine is not required: https://arcane-refuge-81320.herokuapp.com/
+  - Deployed to Heroku, installation on local machine is not required: https://guarded-garden-97987.herokuapp.com/
 
 ## **Tests**
   - Most tests for this application are run with a simple console.log() method. If the correct/expected information returns, then the team knows that the program is functioning as intended.
