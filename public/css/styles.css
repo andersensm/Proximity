@@ -152,6 +152,16 @@ th {
   color: #F9F9F9;
 }
 
+.about-banner {
+  background-color: #4f6367;
+  /* background-position: 60% 40%; */
+  /* background-size: cover;
+  background-repeat: no-repeat; */
+  /* padding: 100px; */
+  color: #F9F9F9;
+}
+
+
 .main-banner-overlay {
   background-color: rgba(79, 99, 103, 0.2);
   width: 100%;
@@ -170,13 +180,31 @@ th {
 
 .heading {
   font-size: 2.5rem;
-  padding-top: 85px;
+  padding-top: 50px;
 }
 
 .header-text {
   padding-bottom: 100px;
   color: #F7B733;
   width: 40%;
+}
+
+.about-text {
+  color: #F7B733;
+  padding-top: 20px;
+  padding-bottom: 80px;
+}
+
+.fa-linkedin, .fa-github-square {
+  font-size: 2rem;
+}
+
+.fa-linkedin {
+  padding-right: 5px;
+}
+
+.about-pic {
+  width: 90%;
 }
 
 .search-keyword {
