@@ -20,9 +20,9 @@ var jobId;
 var queryURL;
 var gMarkers = [];
 var circle;
-var radiusMarkers=[];
-var keyWordSearch=[];
-var keywordInput =[];
+var radiusMarkers = [];
+var keyWordSearch = [];
+var keywordInput = [];
 var marker;
 var circlCenter;
 var circleCenterLat;
@@ -30,7 +30,7 @@ var circleCenterLng;
 var finalSearchQuary = [];
 var resultsToAdd = [];
 var testCounter = 0;
-var otherCounter= 0;
+var otherCounter = 0;
 var apiResults;
 var check;
 var finalSearchQuary;
@@ -39,126 +39,129 @@ var finalSearchQuary;
 
 $(document).ready(function() {
 
-  $("#mapviewclick").on("click", function(){
-      map.setZoom(8)
+  $("#mapviewclick").on("click", function() {
+    map.setZoom(8)
   })
 
-  $( ".dropdown-content" ).find("p:first").text(localStorage.getItem("firstName"));
+  $(".dropdown-content").find("p:first").text(localStorage.getItem("firstName"));
 
   //job Searcher request this will need to be taken from results page of query post
   $("#sendSearch").on("click", function(event) {
-  event.preventDefault();
+    event.preventDefault();
 
-  // remove banner and replace with a new background
-  $("#main-header").removeClass("main-banner");
-  $("#headerText").hide();
-  $("#main-header").addClass("queried-banner");
-  $("#main-header").html("<div class='container'><h1 class='queried-text'>You are so close to finding your dream job</h1></div>");
+    // remove banner and replace with a new background
+    $("#main-header").removeClass("main-banner");
+    $("#headerText").hide();
+    $("#main-header").addClass("queried-banner");
+    $("#main-header").html("<div class='container'><h1 class='queried-text'>You are so close to finding your dream job</h1></div>");
 
-  //emptySearchMarkersArray
-  finalSearchQuary = []
-  searchMarkersLatLng = []
-  searchMarkerAry = []
-  for (var i=0; i < gMarkers.length; i++){
-    gMarkers[i].setMap(null)
-  }
-  gMarkers = []
-  radiusMarkers=[]
-  marker;
-  testCounter = 0;
-  otherCounter= 0;
-  apiResults;
-  check=false
-  keywordInput = $("#keywordVal").val().trim();
+    //emptySearchMarkersArray
+    finalSearchQuary = []
+    searchMarkersLatLng = []
+    searchMarkerAry = []
+    for (var i = 0; i < gMarkers.length; i++) {
+      gMarkers[i].setMap(null)
+    }
+    gMarkers = []
+    radiusMarkers = []
+    marker;
+    testCounter = 0;
+    otherCounter = 0;
+    apiResults;
+    check = false
+    keywordInput = $("#keywordVal").val().trim();
 
-  // update results text header with queried keyword
-  $("#latestJobsText").text("Results for " + keywordInput)
+    // update results text header with queried keyword
+    $("#latestJobsText").text("Results for " + keywordInput)
 
 
     $.ajax({
-    url: "api/results/" + keywordInput,
-    method: "GET",
+      url: "api/results/" + keywordInput,
+      method: "GET",
     }).done(function(results) {
-    $(".jobRow").remove()
-    console.log(results)
-    apiResults = results
-    console.log("apiResults", apiResults)
-    var address = $('#locationVal').val().trim();
-    var radius = parseInt($('.search-radius').val())*(1609.34);
-    geocoder = new google.maps.Geocoder();
-    geocoder.geocode( { 'address': address}, function(res, status) {
-      // console.log("geocode results", results)
-      if (status == google.maps.GeocoderStatus.OK) {
-        map.setCenter(res[0].geometry.location);
-        var icon = {
-          url: 'https://image.flaticon.com/icons/svg/33/33622.svg',
-          // https://developers.google.com/maps/documentation/javascript/markers#icons
-          size: new google.maps.Size(500, 500),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25)
-        };
-        var marker = new google.maps.Marker({
-          map: map,
-          icon: icon,
-          position: res[0].geometry.location
-        });
-        googleMaps()
-        googleMapsMarkers(marker,radius)
-        for (var e = 0; e < results.length; e++ ) {
-            for (var j = 0; j < radiusMarkers.length; j++){
-              if ((radiusMarkers[j].position.lat() === parseFloat(results[e].latitude)) && (radiusMarkers[j].position.lng() === parseFloat(results[e].longitude))) {
-              finalSearchQuary.indexOf(results[e].id) === -1 ? finalSearchQuary.push(results[e].id) : console.log("This item already exists");
-              console.log(finalSearchQuary)
-                                                  }
-                                                }
+      $(".jobRow").remove()
+      console.log(results)
+      apiResults = results
+      console.log("apiResults", apiResults)
+      var address = $('#locationVal').val().trim();
+      var radius = parseInt($('.search-radius').val()) * (1609.34);
+      geocoder = new google.maps.Geocoder();
+      geocoder.geocode({
+        'address': address
+      }, function(res, status) {
+        // console.log("geocode results", results)
+        if (status == google.maps.GeocoderStatus.OK) {
+          map.setCenter(res[0].geometry.location);
+          var icon = {
+            url: 'https://image.flaticon.com/icons/svg/33/33622.svg',
+            // https://developers.google.com/maps/documentation/javascript/markers#icons
+            size: new google.maps.Size(500, 500),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(25, 25)
+          };
+          var marker = new google.maps.Marker({
+            map: map,
+            icon: icon,
+            position: res[0].geometry.location
+          });
+          googleMaps()
+          googleMapsMarkers(marker, radius)
+          for (var e = 0; e < results.length; e++) {
+            for (var j = 0; j < radiusMarkers.length; j++) {
+              if (radiusMarkers[j].placeId === results[e].placeID) {
+                finalSearchQuary.push(results[e].id)
+              }
+            }
+          }
         }
-      }
-      addList()
-    })
+        addList()
+      })
     })
   })
 
-function googleMapsMarkers(marker,radius){
-        if (circle) circle.setMap(null);
-        circle = new google.maps.Circle({center:marker.getPosition(),
-                                       radius: radius,
-                                       fillOpacity: 0.35,
-                                       fillColor: "#FFA07A", //https://developers.google.com/maps/documentation/javascript/examples/circle-simple
-                                       map: map});
-        circleCenter = circle.center
-        circleCenterLat = circle.center.lat()
-        circleCenterLng = circle.center.lng()
-        // console.log("Circle Lat/Lng:", circleCenterLat, circleCenterLng)
-        // var bounds = new google.maps.LatLngBounds();
-        for (var m=0; m < gMarkers.length; m++) {
-          if (google.maps.geometry.spherical.computeDistanceBetween(gMarkers[m].getPosition(),marker.getPosition()) < radius) {
-            // bounds.extend(gMarkers[i].getPosition())
-            gMarkers[m].setMap(map);
-            radiusMarkers.push(gMarkers[m])
+  function googleMapsMarkers(marker, radius) {
+    if (circle) circle.setMap(null);
+    circle = new google.maps.Circle({
+      center: marker.getPosition(),
+      radius: radius,
+      fillOpacity: 0.35,
+      fillColor: "#FFA07A", //https://developers.google.com/maps/documentation/javascript/examples/circle-simple
+      map: map
+    });
+    circleCenter = circle.center
+    circleCenterLat = circle.center.lat()
+    circleCenterLng = circle.center.lng()
+    // console.log("Circle Lat/Lng:", circleCenterLat, circleCenterLng)
+    // var bounds = new google.maps.LatLngBounds();
+    for (var m = 0; m < gMarkers.length; m++) {
+      if (google.maps.geometry.spherical.computeDistanceBetween(gMarkers[m].getPosition(), marker.getPosition()) < radius) {
+        // bounds.extend(gMarkers[i].getPosition())
+        gMarkers[m].setMap(map);
+        radiusMarkers.push(gMarkers[m])
 
 
-            // console.log("radius Markers selection:", radiusMarkers)
-          } else {
-            gMarkers[m].setMap(null);
-          }
-        }
-        map.fitBounds(circle.getBounds());
+        // console.log("radius Markers selection:", radiusMarkers)
+      } else {
+        gMarkers[m].setMap(null);
       }
+    }
+    map.fitBounds(circle.getBounds());
+  }
 
 
-      // } else {
-      //   alert('Geocode was not successful for the following reason: ' + status);
-      // } 2538 N. Greenbrier St. ARlington, VA 22207
-
-function addList() {
-
-  // if (otherCounter === finalSearchQuary.length){
-  //   return;
   // } else {
-    console.log("FINALSEARCH & TEST=TRUE:",finalSearchQuary )
-  for (var q = 0; q < finalSearchQuary.length; q++) {
-    queryURL = "/api/posts/" + finalSearchQuary[q]
+  //   alert('Geocode was not successful for the following reason: ' + status);
+  // } 2538 N. Greenbrier St. ARlington, VA 22207
+
+  function addList() {
+
+    // if (otherCounter === finalSearchQuary.length){
+    //   return;
+    // } else {
+    console.log("FINALSEARCH & TEST=TRUE:", finalSearchQuary)
+    for (var q = 0; q < finalSearchQuary.length; q++) {
+      queryURL = "/api/posts/" + finalSearchQuary[q]
       console.log(queryURL)
       // if (q === finalSearchQuary.length){
       //   return
@@ -227,27 +230,27 @@ function addList() {
     }
   }
   // }
-//recruiter post, and taking address to geocode Latitude & Longitude in mySQL
-$("#addPost").on("click", function(event) {
-  event.preventDefault();
-  //emptySearchMarkersArray
-  searchMarkersLatLng = []
-  googleMaps();
-  var jobTitInput = $("#jobTit");
-  var jobDescInput = $("#jobDesc");
-  var jobQualInput = $("#jobQualDesc")
-  var jobAddInfoInput = $("#jobAddInfoDesc")
-  // var jobCompInput = $("#jobComp");
-  var jobAdrsInput = $("#jobAdr");
-  var jobCityInput = $("#jobCity");
-  // var jobStateSelector = $("#jobState");
-  var jobStateSelector = document.getElementById("jobState")
-  var jobStateInput = jobStateSelector.options[jobStateSelector.selectedIndex].value
-  // console.log(jobStateInput)
-  var jobZipInput = $("#jobZip");
-  var address = "'" + jobAdrsInput.val().trim() + "," + " " + jobCityInput.val().trim() + "," + " " + String(jobStateInput) + " " + jobZipInput.val().trim() + "'"
-  geocodeAddress()
-})
+  //recruiter post, and taking address to geocode Latitude & Longitude in mySQL
+  $("#addPost").on("click", function(event) {
+    event.preventDefault();
+    //emptySearchMarkersArray
+    searchMarkersLatLng = []
+    googleMaps();
+    var jobTitInput = $("#jobTit");
+    var jobDescInput = $("#jobDesc");
+    var jobQualInput = $("#jobQualDesc")
+    var jobAddInfoInput = $("#jobAddInfoDesc")
+    // var jobCompInput = $("#jobComp");
+    var jobAdrsInput = $("#jobAdr");
+    var jobCityInput = $("#jobCity");
+    // var jobStateSelector = $("#jobState");
+    var jobStateSelector = document.getElementById("jobState")
+    var jobStateInput = jobStateSelector.options[jobStateSelector.selectedIndex].value
+    // console.log(jobStateInput)
+    var jobZipInput = $("#jobZip");
+    var address = "'" + jobAdrsInput.val().trim() + "," + " " + jobCityInput.val().trim() + "," + " " + String(jobStateInput) + " " + jobZipInput.val().trim() + "'"
+    geocodeAddress()
+  })
 
   function geocodeAddress() {
     geocoder.geocode({
@@ -261,6 +264,7 @@ $("#addPost").on("click", function(event) {
       newPost(lat, lng)
     })
   }
+
   function newPost(lat, lng) {
     var newPost = {
       jobTitle: jobTitInput.val().trim(),
@@ -278,6 +282,7 @@ $("#addPost").on("click", function(event) {
     };
     submitPost(newPost);
   }
+
   function submitPost(newPost) {
     $.post("/api/posts", newPost, function() {
       // console.log(newPost)
@@ -489,7 +494,7 @@ $("#addPost").on("click", function(event) {
 
   $(".checkedStar").on("click", function() {
     unstarJob();
-      })
+  })
   // pagination function
   //   var table =  $('#myTable');
   // var b = (array of objects from the result)
@@ -577,16 +582,17 @@ $("#addPost").on("click", function(event) {
 //------------------------------------------------------------------------------
 allMarkers()
 
-function allMarkers(){
-    $.ajax({
-      url: "api/posts",
-      method: "GET"
-    }).done(function(results) {
-      apiResults = results
-      googleMaps()
+function allMarkers() {
+  $.ajax({
+    url: "api/posts",
+    method: "GET"
+  }).done(function(results) {
+    apiResults = results
+    googleMaps()
 
   })
 }
+
 function googleMain() {
   var washingtonDC = new google.maps.LatLng(38.9072, -77.0369)
   //Creates map in HTML centered on Washington, D.C.
@@ -598,6 +604,7 @@ function googleMain() {
     zoom: 4,
   });
 }
+
 function googleMaps() {
   if (apiResults != []) {
     // console.log("working!")
@@ -616,72 +623,74 @@ function googleMaps() {
     for (var p = 0; p < apiResults.length; p++) {
       var marksLatLng = apiResults[p]
       var marker = new google.maps.Marker({
-            position: {lat: parseFloat(marksLatLng.latitude), lng: parseFloat(marksLatLng.longitude)
-            },
-                        map: map,
-                        placeId: marksLatLng.placeID,
-                        content: '<div><strong>' + marksLatLng.companyName + '</strong><br>' +
-                          'Job Title: ' + marksLatLng.jobTitle + '<br>' + 'Address: ' +
-                          marksLatLng.address + " " + marksLatLng.city + " " + marksLatLng.state + " " + marksLatLng.zipCode + '</div>' + '<a class="moreInfoUrl" data-value='+ marksLatLng.id +'" href="api/posts/'+ marksLatLng.id +'"></a>',
-                        zIndex: 999999
-          })
+        position: {
+          lat: parseFloat(marksLatLng.latitude),
+          lng: parseFloat(marksLatLng.longitude)
+        },
+        map: map,
+        placeId: marksLatLng.placeID,
+        content: '<div><strong>' + marksLatLng.companyName + '</strong><br>' +
+          'Job Title: ' + marksLatLng.jobTitle + '<br>' + 'Address: ' +
+          marksLatLng.address + " " + marksLatLng.city + " " + marksLatLng.state + " " + marksLatLng.zipCode + '</div>' + '<a class="moreInfoUrl" data-value=' + marksLatLng.id + '" href="api/posts/' + marksLatLng.id + '"></a>',
+        zIndex: 999999
+      })
       gMarkers.push(marker)
       console.log("gMarkers array: ", gMarkers)
       google.maps.event.addListener(marker, 'mouseover', function() {
-            infowindow.setContent(this.content);
-            infowindow.open(map, this);
+        infowindow.setContent(this.content);
+        infowindow.open(map, this);
       })
       google.maps.event.addListener(marker, 'click', function() {
-          queryURL = '/api/posts/' + $(".moreInfoUrl").data("value")
-          console.log(queryURL)
-          $.ajax({
-            url: queryURL,
-            method: "GET",
-          }).done(function(results) {
-            console.log(results)
-            var applybtn = $('<input />', {
-              type: "button",
-              value: "Apply",
-              class: "apply-btn",
-              on: {
-                click: function() {
-                  // window.open(postLink, '_blank');
-                  window.open("http://www.google.com", '_blank');
-                  console.log("click to go to url")
-                }
+        queryURL = '/api/posts/' + $(".moreInfoUrl").data("value")
+        console.log(queryURL)
+        $.ajax({
+          url: queryURL,
+          method: "GET",
+        }).done(function(results) {
+          console.log(results)
+          var applybtn = $('<input />', {
+            type: "button",
+            value: "Apply",
+            class: "apply-btn",
+            on: {
+              click: function() {
+                // window.open(postLink, '_blank');
+                window.open("http://www.google.com", '_blank');
+                console.log("click to go to url")
               }
-            })
-            $("#markerName").text(results.jobTitle)
-            $("#applyButton").html(applybtn)
-            // var jbTit = results.jobTitle
-            jobId = results.id
-            var cmpName = results.companyName
-            var jobDesc = results.jobDescription
-            var jobQual = results.jobQualification
-            var addInfo = results.additionalInfo
-            var adr1 = results.address
-            var adr2 = results.city
-            var adr3 = results.state
-            var adr4 = results.zipCode
-            var fullAddress = adr1 + " " + adr2 + " " + adr3 + " " + adr4
-            var createdAt = results.created_at
-            var updatedAt = results.updated_at
-            var placeDetailsModal = ('<div>' + '<h5>Job Description: </h5>' + jobDesc + '<br>' + '<br>' + '<h5>Qualifications: </h5>' + jobQual + '<br>' + '<br>' + '<h5>Additional Information: </h5>' + addInfo + '<br>' + '<br>' + '<h5>Job Address: </h5>' + adr1 + '<br>' + adr2 + ', ' + adr3 + ' ' + adr4 + '</div>');
-            var noQualDetailsModal = ('<div>' + '<h5>Job Description: </h5>' + jobDesc + '<br>' + '<br>' + '<h5>Additional Information: </h5>' + addInfo + '<br>' + '<br>' + '<h5>Job Address: </h5>' + adr1 + '<br>' + adr2 + ', ' + adr3 + ' ' + adr4 + '</div>');
-            var noAddInfoDetailsModal = ('<div>' + '<h5>Job Description: </h5>' + jobDesc + '<br>' + '<br>' + '<h5>Qualifications: </h5>' + jobQual + '<br>' + '<br>' + '<h5>Job Address: </h5>' + adr1 + '<br>' + adr2 + ', ' + adr3 + ' ' + adr4 + '</div>');
-            var noQualorInfoDetailsModal = ('<div>' + '<h5>Job Description: </h5>' + jobDesc + '<br>' + '<br>' + '<h5>Job Address: </h5>' + adr1 + '<br>' + adr2 + ', ' + adr3 + ' ' + adr4 + '</div>');
-            if (addInfo === undefined && jobQual === undefined) {
-              $(".job-view-body").html(noQualorInfoDetailsModal)
-            } else if (addInfo === undefined) {
-              $(".job-view-body").html(noAddInfoDetailsModal)
-            } else if (jobQual === undefined) {
-              $(".job-view-body").html(noQualDetailsModal)
-            } else {
-              $(".job-view-body").html(placeDetailsModal)
             }
-            $("#markerModal").modal()
           })
-        });
+          $("#markerName").text(results.jobTitle)
+          $("#applyButton").html(applybtn)
+          // var jbTit = results.jobTitle
+          jobId = results.id
+          var cmpName = results.companyName
+          var jobDesc = results.jobDescription
+          var jobQual = results.jobQualification
+          var addInfo = results.additionalInfo
+          var adr1 = results.address
+          var adr2 = results.city
+          var adr3 = results.state
+          var adr4 = results.zipCode
+          var fullAddress = adr1 + " " + adr2 + " " + adr3 + " " + adr4
+          var createdAt = results.created_at
+          var updatedAt = results.updated_at
+          var placeDetailsModal = ('<div>' + '<h5>Job Description: </h5>' + jobDesc + '<br>' + '<br>' + '<h5>Qualifications: </h5>' + jobQual + '<br>' + '<br>' + '<h5>Additional Information: </h5>' + addInfo + '<br>' + '<br>' + '<h5>Job Address: </h5>' + adr1 + '<br>' + adr2 + ', ' + adr3 + ' ' + adr4 + '</div>');
+          var noQualDetailsModal = ('<div>' + '<h5>Job Description: </h5>' + jobDesc + '<br>' + '<br>' + '<h5>Additional Information: </h5>' + addInfo + '<br>' + '<br>' + '<h5>Job Address: </h5>' + adr1 + '<br>' + adr2 + ', ' + adr3 + ' ' + adr4 + '</div>');
+          var noAddInfoDetailsModal = ('<div>' + '<h5>Job Description: </h5>' + jobDesc + '<br>' + '<br>' + '<h5>Qualifications: </h5>' + jobQual + '<br>' + '<br>' + '<h5>Job Address: </h5>' + adr1 + '<br>' + adr2 + ', ' + adr3 + ' ' + adr4 + '</div>');
+          var noQualorInfoDetailsModal = ('<div>' + '<h5>Job Description: </h5>' + jobDesc + '<br>' + '<br>' + '<h5>Job Address: </h5>' + adr1 + '<br>' + adr2 + ', ' + adr3 + ' ' + adr4 + '</div>');
+          if (addInfo === undefined && jobQual === undefined) {
+            $(".job-view-body").html(noQualorInfoDetailsModal)
+          } else if (addInfo === undefined) {
+            $(".job-view-body").html(noAddInfoDetailsModal)
+          } else if (jobQual === undefined) {
+            $(".job-view-body").html(noQualDetailsModal)
+          } else {
+            $(".job-view-body").html(placeDetailsModal)
+          }
+          $("#markerModal").modal()
+        })
+      });
     }
 
 
