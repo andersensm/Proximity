@@ -26,6 +26,17 @@ module.exports = function(app) {
       res.json(dbPost);
     });
   });
+
+  // app.destroy("/api/posts/:id", function(req, res) {
+  //   db.Post.findOne({
+  //     where: {
+  //       id: req.params.id
+  //     },
+  //   }).then(function(dbPost) {
+  //     res.json(dbPost);
+  //   });
+  // });
+
   app.get("/api/users/:id", function(req, res) {
     db.User.findOne({
       where: {

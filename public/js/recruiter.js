@@ -42,8 +42,24 @@ function createNewRow(posts) {
       }
     }
   })
+  var deletebtn = $("<td>")
+  var btndelete = $('<input />', {
+    type: "button",
+    value: "Delete",
+    class: "btn-delete",
+    // id: "viewBtn",
+    // "data-toggle": "modal",
+    // "data-target": "#viewJobPostInfo",
+    on: {
+      click: function() {
+        // console.log ( posts.id );
+        deleteJob(posts.id)
+      }
+    }
+  })
   viewbtn.append(btn)
-  tRow.append(titleTd, descriptionTd, createdDateTd, viewbtn)
+  deletebtn.append(btndelete)
+  tRow.append(titleTd, descriptionTd, createdDateTd, viewbtn, deletebtn)
   tBody.append(tRow);
 }
 getPosts();
@@ -58,20 +74,20 @@ function displayPost(id) {
     method: "GET",
   }).done(function(results) {
     console.log(results)
-    var applybtn = $('<input />', {
-      type: "button",
-      value: "Apply",
-      class: "apply-btn",
-      on: {
-        click: function() {
-          window.open(postLink, '_blank');
-          // window.open("http://www.facebook.com", '_blank');
-          console.log("click to go to url")
-        }
-      }
-    })
+    // var applybtn = $('<input />', {
+    //   type: "button",
+    //   value: "Apply",
+    //   class: "apply-btn",
+    //   on: {
+    //     click: function() {
+    //       window.open(postLink, '_blank');
+    //       // window.open("http://www.facebook.com", '_blank');
+    //       console.log("click to go to url")
+    //     }
+    //   }
+    // })
     $("#viewJobPostTitle").text(results.jobTitle)
-    $("#apply-btn-area").html(applybtn)
+    // $("#apply-btn-area").html(applybtn)
     // var jbTit = results.jobTitle
     var cmpName = results.companyName
     var jobDesc = results.jobDescription
@@ -89,6 +105,17 @@ function displayPost(id) {
     $(".job-view-body").html(placeDetailsModal)
   })
 };
+
+function deleteJob(id) {
+  queryURL = '/api/posts/' + id
+  console.log(queryURL)
+  $.ajax({
+    url: queryURL,
+    method: "DELETE",
+  }).done(function(results) {
+    console.log("deleted this" + results)
+  })
+}
 
 //recruiter post, and taking address to geocode Latitude & Longitude in mySQL
 $("#addPost").on("click", function(event) {
