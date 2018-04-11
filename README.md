@@ -32,9 +32,9 @@ Designed to use the node.js & express.js for server-side code accessing informat
 <p align="center">
   <img src="HomePage2[1].png" width="700" height="400"/>
   <hr>
-  <img src="MapView3.PNG" width="700" height="400"/>
+  <img src="MapView3[1].png" width="700" height="400"/>
   <hr>
-  <img src="RegisterLogin2.PNG" width="700" height="400"/>
+  <img src="RegisterLogin2[1].png" width="700" height="400"/>
 </p>
 
 
