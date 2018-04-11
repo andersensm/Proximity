@@ -30,11 +30,11 @@ Designed to use the node.js & express.js for server-side code accessing informat
 ## **Screen Shots**
 
 <p align="center">
-  <img src="HomePage.PNG" width="700" height="400"/>
+  <img src="HomePage2.PNG" width="700" height="400"/>
   <hr>
-  <img src="MapView.PNG" width="700" height="400"/>
+  <img src="MapView3.PNG" width="700" height="400"/>
   <hr>
-  <img src="RegisterLogin.PNG" width="700" height="400"/>
+  <img src="RegisterLogin2.PNG" width="700" height="400"/>
 </p>
 
 
